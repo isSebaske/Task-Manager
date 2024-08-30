@@ -13,7 +13,7 @@ class TaskList extends Component {
         <div className="row">
           {this.props.tasks.map((task) => (
             <div className="col-md-4 p-1" key={task._id}>
-              <Task task={task} onCompleted={ this.props.onCompleted}/>
+              <Task task={task} onCompleted={this.props.onCompleted} alert={()=> this.props.alert(task)} />
             </div>
           ))}
         </div>

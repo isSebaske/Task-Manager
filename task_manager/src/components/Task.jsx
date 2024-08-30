@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CompletedButton from './completedButton';
+import ObjectIdButton from './objectIdButton';
 
 class Task extends Component {
 
@@ -10,7 +11,7 @@ class Task extends Component {
     return (
       <div className="card shadow-sm m-2 bg-light" style={{ cursor: "default"}}>
         <div className="card-body">
-          <h5 className="card-title rounded-2">{task.title}</h5>
+          <h5 className="card-title rounded-2 d-flex justify-content-center"><ObjectIdButton task={task} alert={ this.props.alert } /></h5>
           <p className="card-text">{task.task}</p>
           <p className="card-text">
             <strong>Category:</strong> {task.category}

@@ -14,7 +14,11 @@ class App extends Component {
     tasks[index] = { ...tasks[index] };
     tasks[index].completed = !tasks[index].completed;
     this.setState({ tasks });
-   };
+  };
+  
+   handleAlert = task => {
+    prompt("The ObjectId is", task._id);
+  };
 
   render () {
 
@@ -24,7 +28,7 @@ class App extends Component {
           <h1>Task Manager</h1>
         </header>
         <main>
-          <TaskList onCompleted={this.handleCompleted} tasks={this.state.tasks} />
+          <TaskList onCompleted={this.handleCompleted} tasks={this.state.tasks} alert={this.handleAlert } />
         </main>
       </div>
     );
