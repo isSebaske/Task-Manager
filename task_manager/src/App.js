@@ -4,10 +4,17 @@ import { getTasks } from "./data/fakeTaskService-1";
 
 class App extends Component {
   state = {
-    tasks: getTasks(),
+    tasks: [],
     currentPage: 1,
     pageSize: 6,
+    categorys: ["All Tasks", "DayToDay", "Home", "Work", "Health"],
+    selectedCategory: "All Tasks"
   };
+
+    componentDidMount() {
+    const tasks = getTasks()
+    this.setState({tasks});
+  }
 
   handleCompleted = (task) => {
     const tasks = [...this.state.tasks];
@@ -21,12 +28,16 @@ class App extends Component {
     prompt("The ObjectId is", task._id);
   };
 
-    handlePageChange = (page) => {
+  handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
+  
+  handleCategorySelect = category => {
+    this.setState({ selectedCategory: category, currentPage: 1 });
+  }
 
   render() {
-    const { tasks, currentPage, pageSize} = this.state
+    const { tasks, currentPage, pageSize, selectedCategory} = this.state
     return (
       <div className="App">
         <header className=" d-flex align-items-center justify-content-center">
@@ -34,8 +45,10 @@ class App extends Component {
         </header>
         <main>
           <TaskList
-            onCompleted={this.handleCompleted}
             tasks={tasks}
+            selectedItem={selectedCategory}
+            onItemSelect={this.handleCategorySelect}
+            onCompleted={this.handleCompleted}
             onAlert={this.handleAlert}
             onPageChange={this.handlePageChange}
             currentPage={currentPage}

@@ -1,25 +1,39 @@
 import React, { Component } from "react";
-import Task from "./Task";
-import Pagination from "./pagination";
+import Task from "./com/Task";
+import ListGroup from "./com/listGroup";
+import Pagination from "./com/pagination";
 import { paginate } from "../utils/paginate";
 
 class TaskList extends Component {
-  state = {
-    currentPage: 1,
-    pageSize: 6,
-  };
 
 
   render() {
-    const { tasks, onCompleted, onAlert, onPageChange, pageSize, currentPage  } = this.props;
+    const { tasks, onCompleted, onAlert, onPageChange, pageSize, currentPage, selectedCategory, onItemSelect  } = this.props;
 
-    const task = paginate(tasks, currentPage, pageSize);
+    const categories = ["All Categories", ...Array.from(new Set(tasks.map(task => task.category)))];
+
+
+    const filteredTasks =
+      selectedCategory && selectedCategory !== "All Categories"
+        ? tasks.filter(task => task.category === selectedCategory)
+        : tasks;
+
+    const task = paginate(filteredTasks, currentPage, pageSize);
     return (
-      <div className="container mt-4">
-        <h1 className="mb-4 ms-2">Task List</h1>
+      <div className="row me-4">
+        <div className="col-2">
+          <ListGroup
+            tasks={tasks}
+            selectedItem={selectedCategory}
+            onItemSelect={onItemSelect}
+          />
+        </div>
+        
+      <div className=" mt-4 col-10">
+        <h1 className="mb-4 ">Task List</h1>
         <div className="row">
           {task.map((task) => (
-            <div className="col-md-4 p-1" key={task._id}>
+            <div className="col-4" key={task._id}>
               <Task
                 task={task}
                 onCompleted={onCompleted}
@@ -29,11 +43,12 @@ class TaskList extends Component {
           ))}
         </div>
         <Pagination
-          itemsCount={tasks.length}
+          itemsCount={filteredTasks.length}
           pageSize={pageSize}
           currentPage={currentPage}
           onPageChange={onPageChange}
         />
+      </div>
       </div>
     );
   }
