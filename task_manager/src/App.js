@@ -7,8 +7,8 @@ class App extends Component {
     tasks: [],
     currentPage: 1,
     pageSize: 6,
-    categorys: ["All Tasks", "DayToDay", "Home", "Work", "Health"],
-    selectedCategory: "All Tasks"
+    categorys: ["All Tasks", "DayToDay", "Home", "Work"],
+    selectedCategory: "All Tasks",
   };
 
     componentDidMount() {
@@ -37,7 +37,7 @@ class App extends Component {
   }
 
   render() {
-    const { tasks, currentPage, pageSize, selectedCategory} = this.state
+    const { tasks, currentPage, pageSize, selectedCategory, categorys} = this.state
     return (
       <div className="App">
         <header className=" d-flex align-items-center justify-content-center">
@@ -46,13 +46,14 @@ class App extends Component {
         <main>
           <TaskList
             tasks={tasks}
-            selectedItem={selectedCategory}
+            selectedCategory={selectedCategory}
             onItemSelect={this.handleCategorySelect}
             onCompleted={this.handleCompleted}
             onAlert={this.handleAlert}
             onPageChange={this.handlePageChange}
             currentPage={currentPage}
             pageSize={pageSize}
+            categorys={categorys}
           />
         </main>
       </div>

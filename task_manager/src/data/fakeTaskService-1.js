@@ -59,7 +59,7 @@ const tasks = [
   _id: "618c3494eddf61c496096583",
   title: "Exercise",
   task: "Do 30 minutes of cardio",
-  category: "Health",
+  category: "Home",
   severity: { _id: "61b017eb0cce782d386e7371", name: "Very Important" },
   completed: false,
 },

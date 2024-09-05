@@ -8,24 +8,22 @@ class TaskList extends Component {
 
 
   render() {
-    const { tasks, onCompleted, onAlert, onPageChange, pageSize, currentPage, selectedCategory, onItemSelect  } = this.props;
-
-    const categories = ["All Categories", ...Array.from(new Set(tasks.map(task => task.category)))];
-
+    const { tasks, onCompleted, onAlert, onPageChange, pageSize, currentPage, selectedCategory, onItemSelect, categorys  } = this.props;
 
     const filteredTasks =
-      selectedCategory && selectedCategory !== "All Categories"
+      selectedCategory && selectedCategory !== "All Tasks"
         ? tasks.filter(task => task.category === selectedCategory)
         : tasks;
 
     const task = paginate(filteredTasks, currentPage, pageSize);
     return (
       <div className="row me-4">
-        <div className="col-2">
+        <div className="col-2 mt-5">
           <ListGroup
             tasks={tasks}
             selectedItem={selectedCategory}
             onItemSelect={onItemSelect}
+            categorys={categorys}
           />
         </div>
         
