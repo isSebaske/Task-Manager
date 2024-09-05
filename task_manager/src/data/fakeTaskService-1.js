@@ -39,6 +39,30 @@ const tasks = [
     severity: { _id: "61b017eb0cce782d386e7371", name: "Very Important" },
     completed: false,
   },
+{
+  _id: "618c3480eddf61c496096581",
+  title: "Buy Groceries",
+  task: "Get milk, bread, and eggs",
+  category: "Home",
+  severity: { _id: "61b017a20cce782d386e736f", name: "Normal" },
+  completed: false,
+},
+{
+  _id: "618c3489eddf61c496096582",
+  title: "Finish Project",
+  task: "Complete Javascript Project IV",
+  category: "Work",
+  severity: { _id: "61b017cc0cce782d386e7370", name: "Important" },
+  completed: false,
+},
+{
+  _id: "618c3494eddf61c496096583",
+  title: "Exercise",
+  task: "Do 30 minutes of cardio",
+  category: "Health",
+  severity: { _id: "61b017eb0cce782d386e7371", name: "Very Important" },
+  completed: false,
+},
 ];
 
 export function getTasks() {
