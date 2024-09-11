@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TaskList from "./components/taskList";
 import { getTasks } from "./data/fakeTaskService-1";
 
+
 class App extends Component {
   state = {
     tasks: [],
@@ -9,11 +10,13 @@ class App extends Component {
     pageSize: 6,
     categorys: ["All Tasks", "DayToDay", "Home", "Work"],
     selectedCategory: "All Tasks",
+    sortColumn: { path: "title", order: "asc" },
+    severity: ["Very Important", "Important", "Normal"],
   };
 
-    componentDidMount() {
-    const tasks = getTasks()
-    this.setState({tasks});
+  componentDidMount() {
+    const tasks = getTasks();
+    this.setState({ tasks });
   }
 
   handleCompleted = (task) => {
@@ -31,18 +34,38 @@ class App extends Component {
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
-  
-  handleCategorySelect = category => {
+
+  handleCategorySelect = (category) => {
     this.setState({ selectedCategory: category, currentPage: 1 });
-  }
+  };
+
+  handleSort = (path) => {
+    const sortColumn = { ...this.state.sortColumn };
+
+      if (sortColumn.path === path)
+        sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
+      else {
+        sortColumn.path = path;
+        sortColumn.order = "asc";
+    }
+    
+    this.setState({ sortColumn });
+    console.log(path);
+  };
 
   render() {
-    const { tasks, currentPage, pageSize, selectedCategory, categorys} = this.state
+    
+    const {
+      tasks,
+      currentPage,
+      pageSize,
+      selectedCategory,
+      categorys,
+      sortColumn,
+    } = this.state;
+
     return (
       <div className="App">
-        <header className=" d-flex align-items-center justify-content-center">
-          <h1>Task Manager</h1>
-        </header>
         <main>
           <TaskList
             tasks={tasks}
@@ -51,9 +74,11 @@ class App extends Component {
             onCompleted={this.handleCompleted}
             onAlert={this.handleAlert}
             onPageChange={this.handlePageChange}
+            onSort={this.handleSort}
             currentPage={currentPage}
             pageSize={pageSize}
             categorys={categorys}
+            sortColumn={sortColumn}
           />
         </main>
       </div>

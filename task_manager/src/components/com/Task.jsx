@@ -8,7 +8,7 @@ class Task extends Component {
 
     return (
       <div
-        className="card shadow-sm mb-4 bg-light"
+        className="card shadow mb-4 bg-light"
         style={{ cursor: "default" }}
       >
         <div className="card-body">

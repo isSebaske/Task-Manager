@@ -4,7 +4,7 @@ const ListGroup = (props) => {
     const { categorys, onItemSelect, selectedItem } = props;
 
     return (
-        <ul className="list-group mt-5 ms-3 ">
+        <ul className="list-group mt-5 ms-3 shadow ">
             {categorys.map(item =>
                 <li onClick={() =>
                     onItemSelect(item)}
