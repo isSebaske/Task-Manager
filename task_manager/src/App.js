@@ -1,86 +1,28 @@
 import React, { Component } from "react";
+import { Route, Redirect, Switch } from "react-router-dom";
 import TaskList from "./components/taskList";
-import { getTasks } from "./data/fakeTaskService-1";
-
+import NavBar from "./components/navBar";
+import NotFound from "./components/notFound";
+import Login from "./components/loginPage";
+import TaskInfo from "./components/taskInfo";
+import AdminPage from "./components/adminPage";
 
 class App extends Component {
-  state = {
-    tasks: [],
-    currentPage: 1,
-    pageSize: 6,
-    categorys: ["All Tasks", "DayToDay", "Home", "Work"],
-    selectedCategory: "All Tasks",
-    sortColumn: { path: "title", order: "asc" },
-    severity: ["Very Important", "Important", "Normal"],
-  };
-
-  componentDidMount() {
-    const tasks = getTasks();
-    this.setState({ tasks });
-  }
-
-  handleCompleted = (task) => {
-    const tasks = [...this.state.tasks];
-    const index = tasks.indexOf(task);
-    tasks[index] = { ...tasks[index] };
-    tasks[index].completed = !tasks[index].completed;
-    this.setState({ tasks });
-  };
-
-  handleAlert = (task) => {
-    prompt("The ObjectId is", task._id);
-  };
-
-  handlePageChange = (page) => {
-    this.setState({ currentPage: page });
-  };
-
-  handleCategorySelect = (category) => {
-    this.setState({ selectedCategory: category, currentPage: 1 });
-  };
-
-  handleSort = (path) => {
-    const sortColumn = { ...this.state.sortColumn };
-
-      if (sortColumn.path === path)
-        sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-      else {
-        sortColumn.path = path;
-        sortColumn.order = "asc";
-    }
-    
-    this.setState({ sortColumn });
-    console.log(path);
-  };
-
   render() {
-    
-    const {
-      tasks,
-      currentPage,
-      pageSize,
-      selectedCategory,
-      categorys,
-      sortColumn,
-    } = this.state;
-
     return (
-      <div className="App">
-        <main>
-          <TaskList
-            tasks={tasks}
-            selectedCategory={selectedCategory}
-            onItemSelect={this.handleCategorySelect}
-            onCompleted={this.handleCompleted}
-            onAlert={this.handleAlert}
-            onPageChange={this.handlePageChange}
-            onSort={this.handleSort}
-            currentPage={currentPage}
-            pageSize={pageSize}
-            categorys={categorys}
-            sortColumn={sortColumn}
-          />
-        </main>
+      <div>
+        <div className="App">
+          <NavBar />
+          <Switch>
+            <Route path="/task-list/:id/:title" component={TaskInfo} />
+            <Route path="/task-list" component={TaskList} />
+            <Route path="/login" component={Login} />
+            <Route path="/admin" component={AdminPage} />
+            <Route path="/not-found" component={NotFound} />
+            <Redirect from="/" exact to="/task-list" />
+            <Redirect to="/not-found" />
+          </Switch>
+        </div>
       </div>
     );
   }

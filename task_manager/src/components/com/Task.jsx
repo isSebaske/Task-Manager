@@ -4,16 +4,16 @@ import ObjectIdButton from "./objectIdButton";
 
 class Task extends Component {
   render() {
-    const { task, onCompleted, onAlert } = this.props;
+    const { task, onCompleted } = this.props;
 
     return (
       <div
-        className="card shadow mb-4 bg-light"
+        className="card shadow mb-4 bg-light btn btn-outline-dark text-black"
         style={{ cursor: "default" }}
       >
         <div className="card-body">
           <h5 className="card-title rounded-2 d-flex justify-content-center">
-            <ObjectIdButton task={task} onAlert={onAlert} />
+            <ObjectIdButton task={task} />
           </h5>
           <p className="card-text">{task.task}</p>
           <p className="card-text">
