@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-sm navbar-light bg-light">
       <Link className="navbar-brand ms-3" to="/">
         Task Manager
       </Link>
@@ -18,7 +18,7 @@ const NavBar = () => {
       >
         <span className="navbar-toggler-icon" />
       </button>
-      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div>
         <div className="navbar-nav">
           <NavLink className="nav-item nav-link" to="/">
             Home

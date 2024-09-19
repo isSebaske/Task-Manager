@@ -3,9 +3,10 @@ import Task from "./com/Task";
 import ListGroup from "./com/listGroup";
 import Pagination from "./com/pagination";
 import { paginate } from "../utils/paginate";
-import SortGroups from "./sortGroups";
+import SortGroups from "./com/sortGroups";
 import _ from "lodash";
 import { getTasks } from "../data/fakeTaskService-1";
+import NewTask from "./com/newTask";
 
 class TaskList extends Component {
   state = {
@@ -15,6 +16,8 @@ class TaskList extends Component {
     categorys: ["All Tasks", "DayToDay", "Home", "Work"],
     selectedCategory: "All Tasks",
     sortColumn: { path: "title", order: "asc" },
+    sorts: ["Title", "Task", "Category", "Severity.name", "Completed"],
+    selectedSort: "Title",
   };
 
   componentDidMount() {
@@ -48,7 +51,7 @@ class TaskList extends Component {
       sortColumn.order = "asc";
     }
 
-    this.setState({ sortColumn });
+    this.setState({ sortColumn, selectedSort: path });
     console.log(path);
   };
 
@@ -60,6 +63,8 @@ class TaskList extends Component {
       selectedCategory,
       categorys,
       sortColumn,
+      sorts,
+      selectedSort,
     } = this.state;
 
     const filteredTasks =
@@ -76,19 +81,25 @@ class TaskList extends Component {
     const task = paginate(sorted, currentPage, pageSize);
     return (
       <div className="row me-4">
-        <div className=" col-2 mt-5 row">
+        <div className=" col-2 row">
           <div className=" offset-1 col-10">
             <ListGroup
-              tasks={tasks}
               selectedItem={selectedCategory}
               onItemSelect={this.handleCategorySelect}
               categorys={categorys}
             />
+            <SortGroups
+              onSort={this.handleSort}
+              sorts={sorts}
+              selectedSort={selectedSort}
+            />
+            <div className="mt-4 d-flex justify-content-center">
+              <NewTask />
+            </div>
           </div>
         </div>
 
         <div className=" mt-3 col-10">
-          <SortGroups onSort={this.handleSort} />
           <div className="row">
             {task.map((task) => (
               <div className="col-3" key={task._id}>

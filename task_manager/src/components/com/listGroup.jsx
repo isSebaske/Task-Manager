@@ -4,7 +4,7 @@ const ListGroup = (props) => {
   const { categorys, onItemSelect, selectedItem } = props;
 
   return (
-    <div className=" mt-5 ms-3 ">
+    <div className=" mt-2 ms-3 ">
       <h3>Filter By</h3>
       <ul className="list-group btn-group-vertical shadow">
         {categorys.map((item) => (
