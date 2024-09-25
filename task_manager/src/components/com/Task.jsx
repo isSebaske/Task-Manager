@@ -23,14 +23,14 @@ class Task extends Component {
             <strong>Severity:</strong>{" "}
             <span
               className={`badge ${
-                task.severity.name === "Very Important"
+                (task.severity.name || task.severity) === "Very Important"
                   ? "bg-danger"
-                  : task.severity.name === "Important"
+                  : (task.severity.name || task.severity) === "Important"
                   ? "bg-warning"
                   : "bg-secondary"
               }`}
             >
-              {task.severity.name}
+              {task.severity.name || task.severity}
             </span>
           </p>
           <p className="card-text">

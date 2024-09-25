@@ -83,7 +83,7 @@ export function saveTask(task) {
   taskInDb.completed = task.completed;
 
   if (!taskInDb._id) {
-    taskInDb._id = Date.now();
+    taskInDb._id = String(Date.now());
     tasks.push(taskInDb);
   }
   console.log(taskInDb);

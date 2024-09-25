@@ -15,9 +15,9 @@ class App extends Component {
         <div className="App">
           <NavBar />
           <Switch>
-            <Route path="/task-list/:id/:title" component={TaskInfo} />
+            <Route path="/task-list/:id" component={NewTaskPage} />
+            {/* <Route path="/task-list/:id/:title" component={TaskInfo} /> */}
             <Route path="/task-list" component={TaskList} />
-            <Route path="/new-task" component={NewTaskPage} />
             <Route path="/login" component={Login} />
             <Route path="/admin" component={AdminPage} />
             <Route path="/not-found" component={NotFound} />
