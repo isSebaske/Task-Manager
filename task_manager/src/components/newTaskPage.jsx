@@ -14,9 +14,9 @@ class NewTaskPage extends Form {
     },
     categories: [{ name: "DayToDay" }, { name: "Home" }, { name: "Work" }],
     severity: [
-      { name: "Normal" },
-      { name: "Important" },
-      { name: "Very Important" },
+      { _id: "61b017a20cce782d386e736f", name: "Normal" },
+      { _id: "61b017cc0cce782d386e7370", name: "Important" },
+      { _id: "61b017eb0cce782d386e7371", name: "Very Important" },
     ],
     errors: {},
   };
@@ -60,13 +60,18 @@ class NewTaskPage extends Form {
     return (
       <div className=" d-flex justify-content-evenly p-5">
         <div>
-          <h1>New Task</h1>
+          <h1>
+            {this.props.match.url === "/task-list/new"
+              ? "New Task"
+              : "Update Task"}
+          </h1>
           <form onSubmit={this.handleSubmit}>
             {this.renderInput("title", "Title")}
             {this.renderInput("task", "Task")}
             {this.renderSelect("category", "Category", this.state.categories)}
             {this.renderSelect("severity", "Severity", this.state.severity)}
-            <div className="mt-2">{this.renderButton("Save")}</div>
+            <br />
+            {this.renderButton("Save")}
           </form>
         </div>
       </div>

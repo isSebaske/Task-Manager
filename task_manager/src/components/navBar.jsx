@@ -7,21 +7,10 @@ const NavBar = () => {
       <Link className="navbar-brand ms-3" to="/">
         Task Manager
       </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
       <div>
         <div className="navbar-nav">
-          <NavLink className="nav-item nav-link" to="/">
-            Home
+          <NavLink className="nav-item nav-link" to="/register">
+            Register
           </NavLink>
           <NavLink className="nav-item nav-link" to="/login">
             Login

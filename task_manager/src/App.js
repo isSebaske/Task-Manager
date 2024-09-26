@@ -3,10 +3,11 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import TaskList from "./components/taskList";
 import NavBar from "./components/navBar";
 import NotFound from "./components/notFound";
-import Login from "./components/loginPage";
-import TaskInfo from "./components/taskInfo";
+
 import AdminPage from "./components/adminPage";
 import NewTaskPage from "./components/newTaskPage";
+import LoginPage from "./components/loginPage";
+import RegisterPage from "./components/registerPage";
 
 class App extends Component {
   render() {
@@ -16,10 +17,10 @@ class App extends Component {
           <NavBar />
           <Switch>
             <Route path="/task-list/:id" component={NewTaskPage} />
-            {/* <Route path="/task-list/:id/:title" component={TaskInfo} /> */}
             <Route path="/task-list" component={TaskList} />
-            <Route path="/login" component={Login} />
             <Route path="/admin" component={AdminPage} />
+            <Route path="/register" component={RegisterPage} />
+            <Route path="/login" component={LoginPage} />
             <Route path="/not-found" component={NotFound} />
             <Redirect from="/" exact to="/task-list" />
             <Redirect to="/not-found" />

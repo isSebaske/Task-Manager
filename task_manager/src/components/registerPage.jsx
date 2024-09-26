@@ -2,15 +2,16 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./com/form";
 
-class LoginPage extends Form {
+class RegisterPage extends Form {
   state = {
-    data: { username: "", password: "" },
+    data: { username: "", password: "", name: "" },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().required().label("Username"),
-    password: Joi.string().required().label("Password"),
+    username: Joi.string().required().email().label("Username"),
+    password: Joi.string().required().min(5).label("Password"),
+    name: Joi.string().required().label("Name"),
   };
 
   doSubmit = () => {
@@ -22,12 +23,13 @@ class LoginPage extends Form {
     return (
       <div className=" d-flex justify-content-evenly p-5">
         <div>
-          <h1>Login</h1>
+          <h1>Register</h1>
           <form onSubmit={this.handleSubmit}>
             {this.renderInput("username", "Username")}
             {this.renderInput("password", "Password", "password")}
+            {this.renderInput("name", "Name")}
             <br />
-            {this.renderButton("Login")}
+            {this.renderButton("Register")}
           </form>
         </div>
       </div>
@@ -35,4 +37,4 @@ class LoginPage extends Form {
   }
 }
 
-export default LoginPage;
+export default RegisterPage;
