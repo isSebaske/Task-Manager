@@ -1,44 +1,59 @@
 import React from "react";
 import Joi from "joi-browser";
-import { getTask, saveTask } from "../data/fakeTaskService-1";
+import { getTask, saveTask, deleteTask } from "../data/taskService";
 import Form from "./com/form";
 
 class NewTaskPage extends Form {
   state = {
     data: {
+      _id: "",
       title: "",
       task: "",
       category: "",
-      severity: "",
-      completed: false,
+      severityId: "",
     },
-    categories: [{ name: "DayToDay" }, { name: "Home" }, { name: "Work" }],
     severity: [
-      { _id: "61b017a20cce782d386e736f", name: "Normal" },
-      { _id: "61b017cc0cce782d386e7370", name: "Important" },
-      { _id: "61b017eb0cce782d386e7371", name: "Very Important" },
+      { _id: "662183a550d3e453f3103716", name: "Not Normal" },
+      { _id: "6621833950d3e453f3103712", name: "Important" },
+      { _id: "6621836150d3e453f3103714", name: "Very Important" },
     ],
     errors: {},
   };
 
   schema = {
-    _id: Joi.string(),
+    _id: Joi.string().allow(""),
     title: Joi.string().required().min(0).max(15).label("Title"),
     task: Joi.string().required().min(0).max(35).label("Task"),
     category: Joi.string().required().label("Category"),
-    severity: Joi.string().required().label("Severity"),
-    completed: Joi.boolean(),
+    severityId: Joi.string().required().label("Severity"),
   };
 
-  componentDidMount() {
-    const tasksId = this.props.match.params.id;
-    if (tasksId === "new") return;
+  async populateTask() {
+    try {
+      const tasksId = this.props.match.params.id;
+      if (tasksId === "new") return;
 
-    const task = getTask(tasksId);
-    if (!task) return this.props.history.replace("/not-found");
-
-    this.setState({ data: this.mapToViewModel(task) });
+      const { data: task } = await getTask(tasksId);
+      console.log("Fetched task data:", task);
+      this.setState({ data: this.mapToViewModel(task) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        this.props.history.replace("/not-found");
+    }
   }
+
+  async componentDidMount() {
+    await this.populateTask();
+    console.log(this.state.data.severityId);
+  }
+
+  handleDelete = async () => {
+    const taskId = this.state.data._id;
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      await deleteTask(taskId);
+      this.props.history.push("/task-list");
+    }
+  };
 
   mapToViewModel(task) {
     return {
@@ -46,17 +61,24 @@ class NewTaskPage extends Form {
       title: task.title,
       task: task.task,
       category: task.category,
-      severity: task.severity.name || task.severity,
+      severityId: task.severity._id,
     };
   }
 
-  doSubmit = () => {
-    saveTask(this.state.data);
+  doSubmit = async () => {
+    const { _id, ...taskData } = this.state.data;
+
+    if (_id) {
+      await saveTask(this.state.data);
+    } else {
+      await saveTask(taskData);
+    }
 
     this.props.history.push("/task-list");
   };
 
   render() {
+    const { severity, categories } = this.state;
     return (
       <div className=" d-flex justify-content-evenly p-5">
         <div>
@@ -68,10 +90,21 @@ class NewTaskPage extends Form {
           <form onSubmit={this.handleSubmit}>
             {this.renderInput("title", "Title")}
             {this.renderInput("task", "Task")}
-            {this.renderSelect("category", "Category", this.state.categories)}
-            {this.renderSelect("severity", "Severity", this.state.severity)}
+            {this.renderInput("category", "Category", categories)}
+            {this.renderSelect("severityId", "Severity", severity)}
             <br />
-            {this.renderButton("Save")}
+            <div className="d-flex justify-content-between">
+              {this.renderButton("Save")}
+              {this.state.data._id && (
+                <button
+                  type="button"
+                  className="btn btn-danger ms-3"
+                  onClick={this.handleDelete}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
           </form>
         </div>
       </div>

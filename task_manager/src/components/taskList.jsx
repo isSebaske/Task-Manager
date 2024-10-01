@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Task from "./com/Task";
-import ListGroup from "./com/listGroup";
+import FilterGroup from "./com/filterGroups";
 import Pagination from "./com/pagination";
 import { paginate } from "../utils/paginate";
 import SortGroups from "./com/sortGroups";
 import _ from "lodash";
-import { getTasks } from "../data/fakeTaskService-1";
+import { getTasks, completeTask } from "../data/taskService";
 import NewTask from "./com/newTask";
 
 class TaskList extends Component {
@@ -13,19 +13,25 @@ class TaskList extends Component {
     tasks: [],
     currentPage: 1,
     pageSize: 8,
-    categorys: ["All Tasks", "DayToDay", "Home", "Work"],
+    categorys: ["All Tasks"],
     selectedCategory: "All Tasks",
     sortColumn: { path: "title", order: "asc" },
     sorts: ["Title", "Task", "Category", "Severity.name", "Completed"],
     selectedSort: "Title",
   };
 
-  componentDidMount() {
-    const tasks = getTasks();
-    this.setState({ tasks });
+  async componentDidMount() {
+    const { data } = await getTasks();
+    const categories = this.extractCategories(data);
+    this.setState({ tasks: data, categorys: ["All Tasks", ...categories] });
   }
 
-  handleCompleted = (task) => {
+  extractCategories(tasks) {
+    const categories = tasks.map((task) => task.category);
+    return [...new Set(categories)];
+  }
+
+  handleCompleted = async (task) => {
     const tasks = [...this.state.tasks];
     const index = tasks.indexOf(task);
     tasks[index] = { ...tasks[index] };
@@ -52,7 +58,6 @@ class TaskList extends Component {
     }
 
     this.setState({ sortColumn, selectedSort: path });
-    console.log(path);
   };
 
   render() {
@@ -79,11 +84,12 @@ class TaskList extends Component {
     );
 
     const task = paginate(sorted, currentPage, pageSize);
+
     return (
       <div className="row me-4">
         <div className=" col-2 row">
           <div className=" offset-1 col-10">
-            <ListGroup
+            <FilterGroup
               selectedItem={selectedCategory}
               onItemSelect={this.handleCategorySelect}
               categorys={categorys}

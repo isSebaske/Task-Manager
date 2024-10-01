@@ -3,7 +3,6 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import TaskList from "./components/taskList";
 import NavBar from "./components/navBar";
 import NotFound from "./components/notFound";
-
 import AdminPage from "./components/adminPage";
 import NewTaskPage from "./components/newTaskPage";
 import LoginPage from "./components/loginPage";
